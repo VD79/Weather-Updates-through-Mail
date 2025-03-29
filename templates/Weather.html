@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <style>
+        body {
+            font-family: Monaco;
+            background: linear-gradient(to bottom, #89cff0, #e6f7ff);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            color: #0073e6;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 30px;
+            margin-left: 30px;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Updates</h1>
+        <form id = "weather">
+            <input type="text" id ="cityInfo", name="cityInfo" placeholder="Enter City Name" required>
+            <br><br>
+            <button type="submit">Search</button> <button type="reset">Reset</button>
+        </form>
+        <br><br>
+        <div id = "message"></div>
+    </div>
+
+    <script>
+        document.getElementById("weather").addEventListener("submit", async function(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
+
+    const cityName = document.getElementById("cityInfo").value;
+    const messagediv = document.getElementById("message");
+    messagediv.innerHTML ="";
+    try {
+        const response = await fetch(`/weather-updates/${cityName}`, 
+		{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) {
+			const errorData = await response.json();
+			var desc;
+			if(Array.isArray(errorData.detail) && errorData.detail.length>0)
+			{
+			  desc = errorData.detail[0].msg;
+			}
+			else{
+			  desc = errorData.detail;
+			}
+           
+
+            const errorMessage = document.createElement("div");
+			errorMessage.textContent = `Error: ${response.status}: ${desc}`;
+			errorMessage.style.color = "red";
+			messagediv.innerHTML ="";
+			message.appendChild(errorMessage);
+            return;
+        }
+		
+		const successMessage = document.createElement("div");
+		successMessage.textContent = `Weather updates sent to mobile/email succesfully`;
+		successMessage.style.color = "green";
+		messagediv.innerHTML ="";
+		message.appendChild(successMessage);
+		
+    } catch (error) {
+        const errorMessage = document.createElement("div");
+		errorMessage.textContent = `Unable to fetch data: ${error.message}`;
+		errorMessage.style.color = "red";
+		messagediv.innerHTML ="";
+		message.appendChild(errorMessage);
+    }
+});
+    </script>
+</body>
+</html>
