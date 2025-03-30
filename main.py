@@ -6,7 +6,7 @@ import read
 app = FastAPI( 
     root_path="/weather",
     title="Weather Updates",
-    description="This API finds the weather updates and will send to the user through message/email",
+    description="This API finds the weather updates and will send to the user through email",
     contact={
         "name": "Developer - Vamsi Darsi",
         "email": "vamsidarsi10@gmail.com",
