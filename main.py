@@ -22,9 +22,9 @@ async def read_root(request: Request):
     return templates.TemplateResponse("Weather.html", {"request": request})
 
 
-@app.get("/weather-updates/{city_name}",
+@app.get("/weather-updates/{city_name}/email/{email}",
          tags=["weather-updates"], 
          summary="Get weather updates of a city", 
          description="This API will help in knowing the weather conditions of a city")
-def get_weather(city_name: str):
-    return read.weather(city_name = city_name, api_key = 'a7b42f373a4beb29f4e1f3a60ea6a824') 
+def get_weather(city_name: str, email:str):
+    return read.weather(city_name = city_name, email=email, api_key = 'your_API_key') 

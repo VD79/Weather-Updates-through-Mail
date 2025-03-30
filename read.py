@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
 
-def weather(city_name : str, api_key:str): 
+def weather(city_name : str, email : str, api_key:str): 
     api_url = f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}&units=metric"
     print(city_name)
     try:
@@ -27,7 +27,7 @@ def weather(city_name : str, api_key:str):
             status = send_email(
                 sender_email=variabless.get_sender(),
                 sender_password=variabless.get_passkey(),
-                recipient_email=variabless.get_recipient(),
+                recipient_email=email,
                 subject=f"{city_name} weather updates",
                 body=content
             )

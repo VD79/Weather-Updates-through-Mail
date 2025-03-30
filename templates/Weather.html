@@ -55,8 +55,9 @@
         <h1>Weather Updates</h1>
         <form id = "weather">
             <input type="text" id ="cityInfo", name="cityInfo" placeholder="Enter City Name" required>
+            <input type="text" id ="email", name="email" placeholder="Enter Email" required>
             <br><br>
-            <button type="submit">Search</button> <button type="reset">Reset</button>
+            <button type="submit">Send</button> <button type="reset">Reset</button>
         </form>
         <br><br>
         <div id = "message"></div>
@@ -67,10 +68,11 @@
     event.preventDefault(); // Prevent form from refreshing the page
 
     const cityName = document.getElementById("cityInfo").value;
+    const email = document.getElementById("email").value;
     const messagediv = document.getElementById("message");
     messagediv.innerHTML ="";
     try {
-        const response = await fetch(`/weather-updates/${cityName}`, 
+        const response = await fetch(`/weather-updates/${cityName}/email/${email}`, 
 		{
             method: "GET",
             headers: {
